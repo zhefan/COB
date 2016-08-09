@@ -1,1 +1,4 @@
 *.caffemodel
+*.mexa64
+*~
+*.asv

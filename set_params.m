@@ -25,11 +25,15 @@ if ~evalin('base','exist(''cob_params'',''var'')')
     cob_params.gpu_id = 0;
     
     % Specify /path/to/caffe (needed for matcaffe)
-	cob_params.caffe_path = '/path/to/caffe/matlab/';
+	cob_params.caffe_path = '/home/zhefanye/Documents/Programs/code/hed/matlab/';
     if ~exist(cob_params.caffe_path,'dir')
         error(['Caffe path ''' cob_params.caffe_path ''' not found'])
     end
     addpath(genpath(cob_params.caffe_path));
+    
+    % reset
+    caffe.set_mode_gpu();
+    caffe.reset_all();
     
     % Network model
     cob_params.model = fullfile(cob_root,'models','deploy.prototxt');

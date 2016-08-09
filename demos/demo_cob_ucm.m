@@ -5,7 +5,7 @@
 close all; home
 
 % Read an input image
-I = imread(fullfile(cob_root, 'demos','2010_005731.png'));
+I = imread(fullfile(cob_root, 'demos','color.png'));
 
 
 % Run COB. For an image of PASCALContext, it should take:

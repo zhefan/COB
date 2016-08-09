@@ -3,7 +3,7 @@
 clear all;close all;home;
 
 % Read an input image
-I = imread(fullfile(cob_root,'demos','101087.jpg'));
+I = imread(fullfile(cob_root,'demos','color.png'));
 
 % Compute the proposals
 [proposals_cob, ucm2_cob, times] = im2prop(I);
@@ -21,17 +21,27 @@ imshow(imdilate(ucm2_cob,strel(ones(3))),[]), title('COB UCM')
 
 %% Show Object Candidates results and bounding boxes
 % Candidates in rank position 1 and 4
-id1 = 1; id2 = 4;
+% id1 = 1; id2 = 4;
 
-% Get the masks from superpixels and labels
-mask1 = ismember(proposals_cob.superpixels, proposals_cob.labels{id1});
-mask2 = ismember(proposals_cob.superpixels, proposals_cob.labels{id2});
-
-% Show results
-% figure;
+figure
 subplot(1,3,1)
+I = im2double(I);
 imshow(I), title('Image')
-subplot(1,3,2)
-imshow(mask1), title('Proposal')
-subplot(1,3,3)
-imshow(mask2), title('Proposal')
+for i = 1:10
+    
+    % Get the masks from superpixels and labels
+    mask = ismember(proposals_cob.superpixels, proposals_cob.labels{i});
+%     mask2 = ismember(proposals_cob.superpixels, proposals_cob.labels{id2});
+    temp_img1 = zeros(size(I));
+    temp_img2 = zeros(size(I));
+    for j = 1:size(I,3)
+        temp_img1(:,:,j) = I(:,:,j) .* double(1-mask) .* 0.1;
+        temp_img2(:,:,j) = I(:,:,j) .* double(mask);
+    end
+    % Show results
+    subplot(1,3,2)
+    imshow(mask), title('FG Mask')
+    subplot(1,3,3)
+    imshow(temp_img1+temp_img2), title('Proposal')
+    pause
+end
